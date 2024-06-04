@@ -45,15 +45,6 @@ func TestGenerateDevID(t *testing.T) {
 
 		t.Logf("Generated ID = %s", id)
 		requireValidGUID(t, id)
-		parts := strings.Split(id, "-")
-		require.Equal(t, 5, len(parts))
-
-		// 8-4-4-4-12
-		require.Equal(t, 8, len(parts[0]))
-		require.Equal(t, 4, len(parts[1]))
-		require.Equal(t, 4, len(parts[2]))
-		require.Equal(t, 4, len(parts[3]))
-		require.Equal(t, 12, len(parts[4]))
 	})
 }
 
@@ -112,4 +103,11 @@ func requireValidGUID(t *testing.T, id string) {
 	require.Equal(t, 4, len(parts[2]))
 	require.Equal(t, 4, len(parts[3]))
 	require.Equal(t, 12, len(parts[4]))
+
+	// all lowercased hex
+	for _, part := range parts {
+		for _, c := range part {
+			require.True(t, (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'))
+		}
+	}
 }

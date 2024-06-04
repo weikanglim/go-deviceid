@@ -9,7 +9,7 @@ import (
 
 // generateDeviceID generates values in the format of:
 // `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
-// Where 'x' is any legal hex digit.
+// Where 'x' is any legal lowercased hex digit.
 func generateDeviceID() (string, error) {
 	randBytes := make([]byte, 4+2+2+2+6)
 
@@ -18,7 +18,7 @@ func generateDeviceID() (string, error) {
 	}
 
 	// (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
-	return fmt.Sprintf("%0X-%0X-%0X-%0X-%0X",
+	return fmt.Sprintf("%x-%x-%x-%x-%x",
 		randBytes[0:4],
 		randBytes[4:6],
 		randBytes[6:8],
