@@ -5,7 +5,7 @@ package devid
 import (
 	"errors"
 	"os"
-	"path"
+	"path/filepath"
 )
 
 // 1.3 Mac
@@ -21,6 +21,6 @@ func GetDeviceID() (string, error) {
 	}
 
 	return readWriteDeviceIDFile(
-		path.Join(home, `Library/Application Support/Microsoft/DeveloperTools`),
+		filepath.Join(home, `Library/Application Support/Microsoft/DeveloperTools`),
 	)
 }

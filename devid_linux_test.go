@@ -4,7 +4,7 @@ package devid
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"strconv"
 	"testing"
 	"time"
@@ -19,8 +19,8 @@ import (
 
 func TestGetDeviceID_Linux(t *testing.T) {
 	t.Run("XDG_CACHE_HOME", func(t *testing.T) {
-		xdgDir := path.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "xdg")
-		homeDir := path.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
+		xdgDir := filepath.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "xdg")
+		homeDir := filepath.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
 
 		defer func() {
 			err := os.RemoveAll(xdgDir)
@@ -39,7 +39,7 @@ func TestGetDeviceID_Linux(t *testing.T) {
 		requireValidGUID(t, deviceID)
 
 		// validate it went to the right spot
-		bytes, err := os.ReadFile(path.Join(xdgDir, "Microsoft/DeveloperTools", "deviceid"))
+		bytes, err := os.ReadFile(filepath.Join(xdgDir, "Microsoft/DeveloperTools", "deviceid"))
 		require.NoError(t, err)
 		require.Equal(t, deviceID, string(bytes))
 
@@ -49,7 +49,7 @@ func TestGetDeviceID_Linux(t *testing.T) {
 	})
 
 	t.Run("HOME", func(t *testing.T) {
-		homeDir := path.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
+		homeDir := filepath.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
 
 		t.Setenv("XDG_CACHE_HOME", "") // when empty we default to HOME
 		t.Setenv("HOME", homeDir)
@@ -59,7 +59,7 @@ func TestGetDeviceID_Linux(t *testing.T) {
 		requireValidGUID(t, deviceID)
 
 		// validate it went to the right spot
-		bytes, err := os.ReadFile(path.Join(homeDir, ".cache", "Microsoft/DeveloperTools", "deviceid"))
+		bytes, err := os.ReadFile(filepath.Join(homeDir, ".cache", "Microsoft/DeveloperTools", "deviceid"))
 		require.NoError(t, err)
 		require.Equal(t, deviceID, string(bytes))
 	})

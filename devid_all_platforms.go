@@ -2,9 +2,10 @@ package devid
 
 import (
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 )
 
 // generateDeviceID generates values in the format of:
@@ -27,7 +28,7 @@ func generateDeviceID() (string, error) {
 }
 
 // readWriteDeviceIDFile reads a deviceid from a file in dir + "/deviceid" and returns it.
-// If the file doesn't exist it creates the file with a newly generated device id and returns the new deviceid.
+// If the file doesn't exist, it creates the file with a newly generated device id and returns the new deviceid.
 func readWriteDeviceIDFile(dir string) (string, error) {
 	err := os.MkdirAll(dir, 0700)
 
@@ -35,12 +36,12 @@ func readWriteDeviceIDFile(dir string) (string, error) {
 		return "", err
 	}
 
-	filePath := path.Join(dir, "deviceid")
+	filePath := filepath.Join(dir, "deviceid")
 
 	contents, err := os.ReadFile(filePath)
 
 	// TODO: scrub any PII from errors.
-	if os.IsNotExist(err) {
+	if errors.Is(err, os.ErrNotExist) {
 		deviceID, err := generateDeviceID()
 
 		if err != nil {

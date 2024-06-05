@@ -2,7 +2,7 @@ package devid
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"testing"
@@ -60,7 +60,7 @@ func TestGenerateDevID(t *testing.T) {
 func TestGenerateDeviceIDFile(t *testing.T) {
 	now := time.Now().UnixNano()
 
-	tempRoot := path.Join(os.TempDir(), strconv.FormatInt(now, 10))
+	tempRoot := filepath.Join(os.TempDir(), strconv.FormatInt(now, 10))
 	defer os.RemoveAll(tempRoot)
 
 	defer func() {
@@ -89,7 +89,7 @@ func TestGenerateDeviceIDFile(t *testing.T) {
 		require.NoError(t, err)
 		requireValidGUID(t, origDevID)
 
-		err = os.Remove(path.Join(tempRoot, "deviceid"))
+		err = os.Remove(filepath.Join(tempRoot, "deviceid"))
 		require.NoError(t, err)
 
 		newDevID, err := readWriteDeviceIDFile(tempRoot)

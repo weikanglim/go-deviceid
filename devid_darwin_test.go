@@ -4,7 +4,7 @@ package devid
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"strconv"
 	"testing"
 	"time"
@@ -14,7 +14,7 @@ import (
 
 func TestGetDeviceID_darwin(t *testing.T) {
 	t.Run("HOME", func(t *testing.T) {
-		homeDir := path.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
+		homeDir := filepath.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
 
 		t.Setenv("HOME", homeDir)
 
@@ -23,7 +23,7 @@ func TestGetDeviceID_darwin(t *testing.T) {
 		requireValidGUID(t, deviceID)
 
 		// validate it went to the right spot
-		bytes, err := os.ReadFile(path.Join(homeDir, "Library/Application Support/Microsoft/DeveloperTools", "deviceid"))
+		bytes, err := os.ReadFile(filepath.Join(homeDir, "Library/Application Support/Microsoft/DeveloperTools", "deviceid"))
 		require.NoError(t, err)
 		require.Equal(t, deviceID, string(bytes))
 	})

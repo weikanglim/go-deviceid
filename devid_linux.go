@@ -5,7 +5,7 @@ package devid
 import (
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 )
 
 // 1.2 Linux
@@ -21,10 +21,10 @@ func GetDeviceID() (string, error) {
 
 	switch {
 	case xdgCacheHome != "":
-		dir := path.Join(xdgCacheHome, devToolsSubPath)
+		dir := filepath.Join(xdgCacheHome, devToolsSubPath)
 		return readWriteDeviceIDFile(dir)
 	case home != "":
-		dir := path.Join(home, ".cache", devToolsSubPath)
+		dir := filepath.Join(home, ".cache", devToolsSubPath)
 		return readWriteDeviceIDFile(dir)
 	default:
 		return "", fmt.Errorf("neither XDG_CACHE_HOME or HOME are set")
