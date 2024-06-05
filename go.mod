@@ -1,4 +1,4 @@
-module github.com/weikanglim/go-deviceid
+module github.com/richardpark-msft/go-deviceid
 
 go 1.8
 
