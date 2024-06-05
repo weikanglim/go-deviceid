@@ -1,4 +1,4 @@
-module devid
+module github.com/weikanglim/go-deviceid
 
 go 1.8
 
