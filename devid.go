@@ -7,6 +7,11 @@ import (
 	"path"
 )
 
+// DeviceID returns the device id for the current system.
+func DeviceID() (string, error) {
+	return deviceID()
+}
+
 // generateDeviceID generates values in the format of:
 // `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
 // Where 'x' is any legal lowercased hex digit.

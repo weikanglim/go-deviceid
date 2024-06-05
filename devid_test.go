@@ -12,11 +12,11 @@ import (
 )
 
 func TestDevID(t *testing.T) {
-	devID, err := GetDeviceID()
+	devID, err := DeviceID()
 	require.NoError(t, err)
 	require.NotEmpty(t, devID)
 
-	secondDevID, err := GetDeviceID()
+	secondDevID, err := DeviceID()
 	require.NoError(t, err)
 	require.Equal(t, devID, secondDevID)
 }

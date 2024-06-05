@@ -8,14 +8,17 @@ import (
 	"golang.org/x/sys/windows/registry"
 )
 
-func GetDeviceID() (string, error) {
-	return getDeviceIDImpl(devToolsSubPath)
+func deviceID() (string, error) {
+	return readWriteDeviceIDRegistry(devToolsSubPath)
 }
 
 const devToolsSubPath = `SOFTWARE\Microsoft\DeveloperTools`
 const deviceIDValueName = "deviceid"
 
-func getDeviceIDImpl(subKeyPath string) (string, error) {
+// readWriteDeviceIDRegistry reads a deviceid from a registry key value in subKeyPath + "\deviceid" and returns it.
+// If the value doesn't exist, it creates the registry key value with a newly generated device id
+// and returns the new deviceid.
+func readWriteDeviceIDRegistry(subKeyPath string) (string, error) {
 	// 1.1 Windows
 	// * The value is cached in the 64-bit Windows Registry under HKeyCurrentUser\SOFTWARE\Microsoft\DeveloperTools.
 	// * The key should be named 'deviceid' and should be of type REG_SZ (String value).

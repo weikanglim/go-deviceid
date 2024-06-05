@@ -14,7 +14,7 @@ import (
 	"golang.org/x/sys/windows/registry"
 )
 
-func TestGetDeviceID_Windows(t *testing.T) {
+func TestDeviceID_Windows(t *testing.T) {
 	now := time.Now().UnixNano()
 	root := fmt.Sprintf(`DevIDTestsGo\%d\`, now)
 	subPath := fmt.Sprintf(root + devToolsSubPath)
@@ -35,7 +35,7 @@ func TestGetDeviceID_Windows(t *testing.T) {
 
 	t.Run("FromZero", func(t *testing.T) {
 		// when we have to create the key and the value
-		tmpDevID, err := getDeviceIDImpl(subPath)
+		tmpDevID, err := readWriteDeviceIDRegistry(subPath)
 		require.NoError(t, err)
 		requireValidGUID(t, tmpDevID)
 		requireRegID(t, subPath, tmpDevID)
@@ -45,7 +45,7 @@ func TestGetDeviceID_Windows(t *testing.T) {
 
 	t.Run("ValueAlreadyExists", func(t *testing.T) {
 		// value already exists, should return the same one.
-		cachedDevID, err := getDeviceIDImpl(subPath)
+		cachedDevID, err := readWriteDeviceIDRegistry(subPath)
 		require.NoError(t, err)
 		require.Equal(t, devID, cachedDevID)
 	})
@@ -62,7 +62,7 @@ func TestGetDeviceID_Windows(t *testing.T) {
 		err = key.Close()
 		require.NoError(t, err)
 
-		newDevID, err := getDeviceIDImpl(subPath)
+		newDevID, err := readWriteDeviceIDRegistry(subPath)
 		require.NoError(t, err)
 		requireValidGUID(t, newDevID)
 	})
