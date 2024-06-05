@@ -48,6 +48,14 @@ func TestGenerateDevID(t *testing.T) {
 	})
 }
 
+func TestFormatGUID(t *testing.T) {
+	guid := formatGUID([]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15})
+	require.Equal(t, "00010203-0405-0607-0809-0a0b0c0d0e0f", guid)
+
+	guid = formatGUID([]byte{16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31})
+	require.Equal(t, "10111213-1415-1617-1819-1a1b1c1d1e1f", guid)
+}
+
 func TestGenerateDeviceIDFile(t *testing.T) {
 	now := time.Now().UnixNano()
 

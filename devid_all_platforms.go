@@ -17,13 +17,18 @@ func generateDeviceID() (string, error) {
 		return "", err
 	}
 
-	// (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+	return formatGUID(randBytes), nil
+}
+
+// formatGUID takes 16 bytes and formats it into a lowercased GUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+// NOTE: there's no error checking here, I just split this out from generateDeviceID so we can unit test it.
+func formatGUID(randBytes []byte) string {
 	return fmt.Sprintf("%x-%x-%x-%x-%x",
 		randBytes[0:4],
 		randBytes[4:6],
 		randBytes[6:8],
 		randBytes[8:10],
-		randBytes[10:]), nil
+		randBytes[10:])
 }
 
 // readWriteDeviceIDFile reads a deviceid from a file in dir + "/deviceid" and returns it.
