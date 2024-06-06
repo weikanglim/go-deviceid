@@ -17,7 +17,7 @@ import (
 // * The file will be called 'deviceid'.
 // * The value should be stored in plain text, UTF-8, and in the format specified in Section 1.
 
-func TestDeviceID_Linux(t *testing.T) {
+func TestGet_Linux(t *testing.T) {
 	t.Run("XDG_CACHE_HOME", func(t *testing.T) {
 		xdgDir := path.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "xdg")
 		homeDir := path.Join(os.TempDir(), strconv.FormatInt(time.Now().UnixNano(), 10), "home")
@@ -34,14 +34,14 @@ func TestDeviceID_Linux(t *testing.T) {
 		t.Setenv("XDG_CACHE_HOME", xdgDir)
 		t.Setenv("HOME", homeDir)
 
-		id, err := deviceID()
+		deviceID, err := Get()
 		require.NoError(t, err)
-		requireValidGUID(t, id)
+		requireValidGUID(t, deviceID)
 
 		// validate it went to the right spot
 		bytes, err := os.ReadFile(path.Join(xdgDir, "Microsoft/DeveloperTools", "deviceid"))
 		require.NoError(t, err)
-		require.Equal(t, id, string(bytes))
+		require.Equal(t, deviceID, string(bytes))
 
 		// and nothing ended up in HOME
 		_, err = os.Stat(homeDir)
@@ -54,14 +54,14 @@ func TestDeviceID_Linux(t *testing.T) {
 		t.Setenv("XDG_CACHE_HOME", "") // when empty we default to HOME
 		t.Setenv("HOME", homeDir)
 
-		id, err := deviceID()
+		deviceID, err := Get()
 		require.NoError(t, err)
-		requireValidGUID(t, id)
+		requireValidGUID(t, deviceID)
 
 		// validate it went to the right spot
 		bytes, err := os.ReadFile(path.Join(homeDir, ".cache", "Microsoft/DeveloperTools", "deviceid"))
 		require.NoError(t, err)
-		require.Equal(t, id, string(bytes))
+		require.Equal(t, deviceID, string(bytes))
 	})
 
 	t.Run("NeitherAreSet", func(t *testing.T) {
@@ -69,8 +69,8 @@ func TestDeviceID_Linux(t *testing.T) {
 		t.Setenv("XDG_CACHE_HOME", "")
 		t.Setenv("HOME", "")
 
-		id, err := deviceID()
-		require.Empty(t, id)
+		deviceID, err := Get()
+		require.Empty(t, deviceID)
 		require.EqualError(t, err, "neither XDG_CACHE_HOME or HOME are set")
 	})
 }

@@ -13,7 +13,8 @@ import (
 // * The file will be called 'deviceid'.
 // * The value should be stored in plain text, UTF-8, and in the format specified in Section 1.
 
-func deviceID() (string, error) {
+// Get returns the device id for the current system.
+func Get() (string, error) {
 	xdgCacheHome := os.Getenv("XDG_CACHE_HOME")
 	home := os.Getenv("HOME")
 

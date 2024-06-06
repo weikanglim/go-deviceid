@@ -14,7 +14,7 @@ import (
 	"golang.org/x/sys/windows/registry"
 )
 
-func TestDeviceID_Windows(t *testing.T) {
+func TestGet_Windows(t *testing.T) {
 	now := time.Now().UnixNano()
 	root := fmt.Sprintf(`DevIDTestsGo\%d\`, now)
 	subPath := fmt.Sprintf(root + devToolsSubPath)

@@ -8,7 +8,8 @@ import (
 	"golang.org/x/sys/windows/registry"
 )
 
-func deviceID() (string, error) {
+// Get returns the device id for the current system.
+func Get() (string, error) {
 	return readWriteDeviceIDRegistry(devToolsSubPath)
 }
 
