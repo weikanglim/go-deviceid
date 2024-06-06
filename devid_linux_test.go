@@ -1,6 +1,6 @@
 //go:build linux
 
-package devid
+package deviceid
 
 import (
 	"os"

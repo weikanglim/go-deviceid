@@ -1,4 +1,4 @@
-package devid
+package deviceid
 
 import (
 	"crypto/rand"
@@ -7,8 +7,8 @@ import (
 	"path"
 )
 
-// DeviceID returns the device id for the current system.
-func DeviceID() (string, error) {
+// Get returns the device id for the current system.
+func Get() (string, error) {
 	return deviceID()
 }
 

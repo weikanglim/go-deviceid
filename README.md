@@ -1,6 +1,6 @@
 # Device ID for Go
 
-`devid` provides a device ID for a given system, based on the `DevDeviceId` specification.
+`deviceid` provides a device ID for a given system, based on the `DevDeviceId` specification.
 
 ## Installation
 
@@ -9,9 +9,9 @@
 ## Usage
 
 ```golang
-import devid "github.com/richardpark-msft/go-deviceid"
+import deviceid "github.com/richardpark-msft/go-deviceid"
 
-deviceId, err := devid.DeviceID()
+deviceId, err := deviceid.Get()
 if err != nil {
   // handle error
 }

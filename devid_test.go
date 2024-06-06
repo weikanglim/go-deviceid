@@ -1,4 +1,4 @@
-package devid
+package deviceid
 
 import (
 	"os"
@@ -12,11 +12,11 @@ import (
 )
 
 func TestDevID(t *testing.T) {
-	devID, err := DeviceID()
+	devID, err := Get()
 	require.NoError(t, err)
 	require.NotEmpty(t, devID)
 
-	secondDevID, err := DeviceID()
+	secondDevID, err := Get()
 	require.NoError(t, err)
 	require.Equal(t, devID, secondDevID)
 }

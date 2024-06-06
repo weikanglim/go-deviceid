@@ -1,6 +1,6 @@
 //go:build windows
 
-package devid
+package deviceid
 
 import (
 	"fmt"

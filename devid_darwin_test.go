@@ -1,6 +1,6 @@
 //go:build darwin
 
-package devid
+package deviceid
 
 import (
 	"os"
